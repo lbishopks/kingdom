@@ -1,80 +1,59 @@
 export const site = {
-  name: "UKnighted Kingdom",
-  shortName: "UKnighted",
-  tagline: "Media That Protects the Kingdom of Your Home",
+  name: "Uknighted Kingdom",
+  shortName: "Uknighted",
+  tagline: "Sexy Love & Family Entertainment",
   description:
-    "UKnighted Kingdom creates faith-rooted, family-first entertainment that models healthy love and relationships — helping parents, communities, and industry leaders raise the next generation with intention.",
+    "Uknighted Kingdom combines biblical, loving, and spiritual principles with entertainment — teaching real Sexy Love through comedy, media, and courses that build families instead of breaking them.",
   url: "https://uknightedkingdom.com",
   email: "micheletexas@gmail.com",
-  youtube: "https://www.youtube.com/channel/UC_Pb1j6WcqnJ4PBj2PeUQNA",
+  youtube: "https://www.youtube.com/@uknightedkingdom",
+  tiktok: "https://www.tiktok.com/@uknightedkingdom",
+  instagram: "https://www.instagram.com/uknightedkingdom",
   locale: "en_US",
   keywords: [
-    "UKnighted Kingdom",
+    "Uknighted Kingdom",
+    "Sexy Love",
+    "Michele Collins",
     "family entertainment",
     "faith-based media",
-    "healthy relationships media",
+    "biblical relationship teaching",
+    "Sexy Church",
     "Christian family content",
     "media literacy for parents",
-    "wholesome entertainment",
-    "Grace Under Glitter",
-    "family values content",
   ],
 };
 
 export const nav = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "Our Story" },
-  { href: "/mission", label: "Our Mission" },
-  { href: "/watch", label: "Watch" },
-  { href: "/contact", label: "Contact" },
+  { href: "#purpose", label: "Purpose" },
+  { href: "#story", label: "Michele's Story" },
+  { href: "#sexy-love", label: "Sexy Love" },
+  { href: "#watch", label: "Watch" },
+  { href: "#offers", label: "Offers" },
 ];
 
-export const contentSeries = [
+// Default video slots shown on the Watch section. These can be edited (title,
+// url, duration) from the admin dashboard — the values below are only the
+// starting defaults.
+export const videoSlots = [
   {
-    slug: "the-light",
-    title: "The Light",
-    description:
-      "Stories that center hope, faith, and resilience — showing families what it looks like to choose grace under pressure.",
+    slug: "video-1",
+    defaultTitle: "Vanity of vanities, all is Vanity",
+    defaultUrl: "https://www.youtube.com/watch?v=d5qGBGp70zQ",
+    defaultDuration: "5:23",
+    tag: "One of our most watched",
   },
   {
-    slug: "grace-under-glitter",
-    title: "Grace Under Glitter",
-    description:
-      "A behind-the-curtain look at sustaining character, faith, and healthy love inside the glamour and pressure of entertainment culture.",
+    slug: "video-2",
+    defaultTitle: "Sexy World: Brotherhood",
+    defaultUrl: "https://www.youtube.com/watch?v=Rs66J5e3_Po",
+    defaultDuration: "7:22",
+    tag: "",
   },
   {
-    slug: "its-a-sexy-world",
-    title: "It's a Sexy World",
-    description:
-      "Honest, brain-science-backed conversations about how media shapes desire, self-worth, and relationships — for adults raising the next generation.",
-  },
-  {
-    slug: "sexy-church",
-    title: "Sexy Church",
-    description:
-      "Reframing faith community as vibrant, relevant, and alive — content made for congregations who want to engage culture without losing their center.",
-  },
-];
-
-export const audiences = [
-  {
-    title: "Parents & Families",
-    description:
-      "Practical tools and content to talk with your kids about what they're watching — and why it matters.",
-  },
-  {
-    title: "Entertainment Industry",
-    description:
-      "Partner with us on projects that model healthy relationships without sacrificing story, craft, or reach.",
-  },
-  {
-    title: "Community & Faith Leaders",
-    description:
-      "Discussion-ready content and resources to bring conscious media conversations into your congregation or community.",
-  },
-  {
-    title: "Business Leaders",
-    description:
-      "Sponsor and align your brand with content that builds stronger families and healthier culture.",
+    slug: "video-3",
+    defaultTitle: "To MY Son: A Mother's Prophecy",
+    defaultUrl: "https://www.youtube.com/watch?v=DXYL1oPTKNs",
+    defaultDuration: "7:37",
+    tag: "",
   },
 ];
