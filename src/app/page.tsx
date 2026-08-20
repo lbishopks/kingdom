@@ -1,8 +1,8 @@
-import Link from "next/link";
 import type { Metadata } from "next";
-import NewsletterForm from "@/components/NewsletterForm";
-import { audiences, contentSeries, site } from "@/lib/site";
+import Image from "next/image";
+import { site, videoSlots } from "@/lib/site";
 import { getContent } from "@/lib/content";
+import NewsletterForm from "@/components/NewsletterForm";
 
 export const dynamic = "force-dynamic";
 
@@ -13,130 +13,449 @@ export const metadata: Metadata = {
 };
 
 const stats = [
-  { value: "80–100ms", label: "is all it takes your brain to form a first impression of what it sees (NIH)." },
-  { value: "3h 16m", label: "average daily television viewing per person — nearly an hour of it commercials." },
-  { value: "4", label: "original content series built around healthy love, faith, and family." },
+  { value: "80–100 ms", label: "Time for the brain to form a perspective (NIH)" },
+  { value: "3 hrs 16 min", label: "Average daily TV consumption" },
+  { value: "Almost 1 hour", label: "Of commercials absorbed every day" },
 ];
 
-export default async function Home() {
+const purposeCards = [
+  {
+    title: "What We Believe",
+    body: "Real love has no pain points, no character conflict, and does not depend on money. The Bible taught Michele this after she lost everything. That truth is the foundation of everything we create.",
+  },
+  {
+    title: "What We Do",
+    body: "We combine modern application of biblical, loving, and spiritual principles with entertainment. The result is content and teaching that builds families instead of breaking them.",
+  },
+  {
+    title: "What We Want",
+    body: "Every person to feel part of a loving family that outlasts generations. We want love to influence belief systems the same way entertainment currently influences buying power — without pain or conflict.",
+  },
+];
+
+const timeline = [
+  {
+    era: "BEFORE 2017",
+    title: "25 Years in Fortune 500 Sales",
+    body: [
+      "Michele spent 25 years as a top sales executive for companies including Nokia, Baylor Hospital, and the City of Irving. She worked across construction, corporate payments (specializing in media payments), telecommunications, government, and oil & gas. She holds a Business degree with International Business concentration from the University of Texas at Dallas.",
+      "She knew how companies sell “sexy” and generate profit. Yet the more money she made, the more personal relationships suffered. She worked on all-male sales teams, outperformed them, and gained respect — but it never brought the love she actually wanted.",
+    ],
+    quote: "If people knew my past they would have never hired me, invited me in their homes, or dated me.",
+  },
+  {
+    era: "2017–2018",
+    title: "Comedy & The Michele Tune",
+    body: [
+      "In 2017 Michele began performing standup comedy. While writing jokes she noticed something important: character conflict produces laughter on stage, but the same conflict in real life causes unnecessary pain and drives consumer spending.",
+      "She asked a different question: “We relate through entertainment with our tragic human experiences. Why not relate with loving experiences?” In 2018 she launched The Michele Tune and created the trademarked Award Winning Mindset™ leadership program. She also authored a New Hire Sales Assessment for Test Gorilla.",
+    ],
+    quote: "Trauma doesn't have to be traumatic.",
+  },
+  {
+    era: "THE TURNING POINT",
+    title: "The Dream Table That Was Empty",
+    body: [
+      "One day Michele sat at the table of her dreams — eight matching chairs, beautiful place settings, large enough for a full family. She suddenly laughed out loud. She had told herself that when she could afford a table like this it would include a husband, children, friends, and family who loved her. Instead she sat alone.",
+      "She realized her beliefs about love had been tied to things she purchased with money. She turned the table into a desk. That failed too. She had tried multiple marriages, moving, changing her appearance, therapy, churches, self-help, and motivational seminars. All offered tips. None delivered lasting love.",
+    ],
+    quote: "When we focus on love instead of money, love will bring you money.",
+  },
+  {
+    era: "2020–2023",
+    title: "Everything Lost — and a Bible Found",
+    body: [
+      "During the pandemic Michele lost everything financially, including family and friends. For three years (2020–2023) she slept on people's couches and lived from her car. In that season she found a Bible.",
+      "The Bible taught her that real love has no pain points, no character conflict, and excludes money. She discovered love when love was all she had left to rely on.",
+    ],
+    quote: "Jokes on me… I found love when love was all that I had to rely on.",
+  },
+  {
+    era: "2024–PRESENT",
+    title: "Uknighted Kingdom Is Born",
+    body: [
+      "Michele realized entertainment shapes belief systems, consumer behavior, and family values. She decided to use the same power — comedy, media, and teaching — to influence people toward real love instead of conflict and false desire.",
+      "In 2024 she launched Uknighted Kingdom: the first company combining modern application of biblical, loving, and spiritual principles with entertainment. Her Amazon Prime speech “Comedian Confesses: How Comedy Healed My Trauma” marks part of this public journey.",
+    ],
+    quote: "Do you want love? Do you want a loving family? Join my love mission. Change your story ending.",
+  },
+];
+
+const sexyLoveCards = [
+  {
+    n: "1",
+    title: "For Couples",
+    body: "Rekindle desire and partnership without the conflict, performance, or emptiness that mainstream culture normalizes.",
+  },
+  {
+    n: "2",
+    title: "For Families",
+    body: "Protect teens and children from media that short-circuits brain development. Build a home culture of real love that outlasts generations.",
+  },
+  {
+    n: "3",
+    title: "For You",
+    body: "Whether you feel cheated by love or simply want more, learn the formula that works — available free through our entertainment and Sexy Church.",
+  },
+];
+
+const alsoAvailable = [
+  { title: "$300 — Choose Sexy Love", body: "1-hour message + improv comedy + quiz." },
+  { title: "Grace Under Glitter Tour", body: "Comedy shows + sponsorship packages." },
+  { title: "Merchandise", body: "Sexy Love t-shirts and more." },
+];
+
+function getYouTubeEmbedUrl(url: string): string | null {
+  try {
+    const parsed = new URL(url);
+    const host = parsed.hostname.replace(/^www\./, "");
+    if (!host.includes("youtube.com") && !host.includes("youtu.be")) return null;
+
+    let id: string | null = null;
+    if (host.includes("youtu.be")) {
+      id = parsed.pathname.slice(1);
+    } else if (parsed.searchParams.get("v")) {
+      id = parsed.searchParams.get("v");
+    } else if (parsed.pathname.startsWith("/embed/")) {
+      id = parsed.pathname.replace("/embed/", "");
+    }
+    return id ? `https://www.youtube-nocookie.com/embed/${id}` : null;
+  } catch {
+    return null;
+  }
+}
+
+const DIRECT_VIDEO_EXTENSIONS = [".mp4", ".webm", ".ogg", ".mov", ".m4v"];
+function isDirectVideoFile(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    return DIRECT_VIDEO_EXTENSIONS.some((ext) => parsed.pathname.toLowerCase().endsWith(ext));
+  } catch {
+    return false;
+  }
+}
+
+export default async function HomePage() {
   const content = await getContent();
 
   return (
     <>
-      <section className="gradient-royal relative overflow-hidden text-paper">
-        {content.images.hero && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={content.images.hero}
-            alt=""
-            aria-hidden
-            className="absolute inset-0 h-full w-full object-cover opacity-25"
-          />
-        )}
-        <div className="relative mx-auto grid max-w-6xl gap-10 px-6 py-24 md:grid-cols-[1.1fr_0.9fr] md:py-32">
+      {/* HERO */}
+      <section className="bg-cream">
+        <div className="mx-auto grid max-w-6xl gap-12 px-6 py-20 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
-            <p className="inline-block rounded-full bg-paper/10 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-gold-light">
-              Faith-Rooted Family Media
+            <p className="text-xs font-semibold uppercase tracking-widest text-deeprose">
+              Redefining Family Entertainment
             </p>
-            <h1 className="mt-6 font-display text-4xl font-semibold leading-tight sm:text-5xl md:text-6xl">
-              Media that protects the <span className="text-gradient-gold">kingdom of your home.</span>
+            <h1 className="mt-4 font-display text-4xl font-bold leading-tight text-ink sm:text-5xl">
+              Discover the secret formula for Sexy Love
             </h1>
-            <p className="mt-6 max-w-xl text-lg text-paper/80">
-              {site.description}
+            <p className="mt-6 max-w-xl text-lg text-muted">
+              Michele Collins went from a difficult past and 25 years in Fortune 500 sales to founding Uknighted
+              Kingdom — teaching real love through biblical principles and entertainment that builds families
+              instead of breaking them.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                href="/watch"
-                className="rounded-full bg-gold px-7 py-3 text-sm font-semibold text-royal shadow-lg transition hover:bg-gold-light"
+              <a
+                href="#offers"
+                className="rounded-full gradient-rose px-7 py-3 text-sm font-semibold text-cream transition hover:opacity-90"
               >
-                Start Watching
-              </Link>
-              <Link
-                href="/mission"
-                className="rounded-full border border-paper/30 px-7 py-3 text-sm font-semibold text-paper transition hover:bg-paper/10"
+                Keep Love Sexy — $50 Class
+              </a>
+              <a
+                href={site.youtube}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-ink/20 px-7 py-3 text-sm font-semibold text-ink transition hover:bg-ink/5"
               >
-                Our Mission
-              </Link>
+                Watch Free on YouTube
+              </a>
             </div>
+            <p className="mt-4 text-xs text-muted">Free Sexy Church online · Max 10 people per class</p>
           </div>
 
-          <div className="self-center rounded-3xl border border-paper/15 bg-paper/5 p-8 backdrop-blur">
-            <h2 className="font-display text-xl font-semibold text-gold-light">Get UKnighted</h2>
-            <p className="mt-2 text-sm text-paper/75">
-              Join our newsletter for new episodes, media-literacy tools for families, and behind-the-scenes updates.
-            </p>
-            <NewsletterForm />
+          <div className="rounded-3xl border border-ink/10 bg-white p-6 card-shadow">
+            <div className="flex aspect-square items-center justify-center overflow-hidden rounded-2xl bg-cream">
+              {content.photo ? (
+                <Image
+                  src={content.photo}
+                  alt="Michele Collins"
+                  width={600}
+                  height={600}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <span className="text-6xl" aria-hidden>
+                  ❤️
+                </span>
+              )}
+            </div>
+            <p className="mt-5 font-display text-xl font-semibold text-ink">Michele Collins</p>
+            <p className="text-sm text-deeprose">Owner · Comedian · Love Teacher</p>
+            {!content.photo && (
+              <p className="mt-3 text-xs italic text-muted">
+                Replace with a strong photo or short intro video of Michele speaking to camera.
+              </p>
+            )}
           </div>
         </div>
-      </section>
 
-      <section className="mx-auto max-w-6xl px-6 py-16">
-        <div className="grid gap-8 sm:grid-cols-3">
-          {stats.map((stat) => (
-            <div key={stat.label} className="rounded-2xl border border-royal/10 bg-white p-6 card-shadow">
-              <p className="font-display text-3xl font-semibold text-royal">{stat.value}</p>
-              <p className="mt-2 text-sm text-muted">{stat.label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="bg-white py-20">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="max-w-2xl">
-            <h2 className="font-display text-3xl font-semibold text-royal sm:text-4xl">Original series built for real conversations</h2>
-            <p className="mt-4 text-muted">
-              Every UKnighted Kingdom production is designed to open a dialogue — about love, faith, culture, and what
-              we let into our homes.
-            </p>
-          </div>
-
-          <div className="mt-12 grid gap-6 sm:grid-cols-2">
-            {contentSeries.map((item) => (
-              <article key={item.slug} className="rounded-2xl border border-royal/10 p-6 transition hover:border-royal/30 hover:shadow-md">
-                <h3 className="font-display text-xl font-semibold text-royal">{item.title}</h3>
-                <p className="mt-2 text-sm text-muted">{item.description}</p>
-                <Link href="/watch" className="mt-4 inline-block text-sm font-semibold text-rose hover:underline">
-                  Watch now →
-                </Link>
-              </article>
+        <div className="border-y border-ink/10 bg-white">
+          <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-6 py-10 sm:grid-cols-3">
+            {stats.map((s) => (
+              <div key={s.label} className="text-center">
+                <p className="font-display text-3xl font-bold text-deeprose">{s.value}</p>
+                <p className="mt-1 text-sm text-muted">{s.label}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 py-20">
-        <h2 className="font-display text-3xl font-semibold text-royal sm:text-4xl">Who we serve</h2>
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {audiences.map((a) => (
-            <div key={a.title} className="rounded-2xl bg-royal/5 p-6">
-              <h3 className="font-semibold text-royal">{a.title}</h3>
-              <p className="mt-2 text-sm text-muted">{a.description}</p>
+      {/* PURPOSE */}
+      <section id="purpose" className="mx-auto max-w-6xl px-6 py-24">
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="text-xs font-semibold uppercase tracking-widest text-deeprose">Why This Exists</p>
+          <h2 className="mt-4 font-display text-3xl font-bold text-ink sm:text-4xl">
+            The Purpose of Uknighted Kingdom
+          </h2>
+          <p className="mt-6 text-muted">
+            Entertainment is one of the most powerful forces shaping what people believe about love, relationships,
+            and family. Most of it works through conflict, pain, and consumer desire. Uknighted Kingdom exists to
+            reverse that.
+          </p>
+        </div>
+
+        <div className="mt-14 grid gap-8 sm:grid-cols-3">
+          {purposeCards.map((c) => (
+            <div key={c.title} className="rounded-2xl border border-ink/10 bg-white p-8 card-shadow">
+              <h3 className="font-display text-xl font-semibold text-ink">{c.title}</h3>
+              <p className="mt-3 text-sm text-muted">{c.body}</p>
             </div>
           ))}
         </div>
+
+        <p className="mt-14 text-center font-display text-2xl italic text-deeprose">
+          &ldquo;We&rsquo;re redefining family entertainment.&rdquo;
+        </p>
       </section>
 
-      <section className="gradient-royal py-20 text-paper">
-        <div className="mx-auto flex max-w-4xl flex-col items-center gap-6 px-6 text-center">
-          <h2 className="font-display text-3xl font-semibold sm:text-4xl">Ready to get UKnighted?</h2>
-          <p className="max-w-xl text-paper/80">
-            Start today — watch our latest episode, or reach out to bring UKnighted Kingdom content into your home,
-            church, or business.
+      {/* STORY */}
+      <section id="story" className="bg-white py-24">
+        <div className="mx-auto max-w-4xl px-6">
+          <div className="text-center">
+            <h2 className="font-display text-3xl font-bold text-ink sm:text-4xl">Michele&rsquo;s Story</h2>
+            <p className="mt-6 text-muted">
+              From a difficult past and 25 years at the top of Fortune 500 sales to losing everything — and then
+              finding real love in a Bible. This is the journey that created Uknighted Kingdom.
+            </p>
+          </div>
+
+          <div className="mt-16 space-y-14 border-l-2 border-softgold/50 pl-8">
+            {timeline.map((t) => (
+              <div key={t.title} className="relative">
+                <span
+                  aria-hidden
+                  className="absolute -left-[2.55rem] top-1 h-4 w-4 rounded-full gradient-rose"
+                />
+                <p className="text-xs font-semibold uppercase tracking-widest text-deeprose">{t.era}</p>
+                <h3 className="mt-2 font-display text-2xl font-semibold text-ink">{t.title}</h3>
+                <div className="mt-4 space-y-4 text-muted">
+                  {t.body.map((p, i) => (
+                    <p key={i}>{p}</p>
+                  ))}
+                </div>
+                <p className="mt-4 font-display text-lg italic text-deeprose">&ldquo;{t.quote}&rdquo;</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SEXY LOVE */}
+      <section id="sexy-love" className="mx-auto max-w-6xl px-6 py-24">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="font-display text-3xl font-bold text-ink sm:text-4xl">What is Sexy Love?</h2>
+          <p className="mt-6 text-muted">
+            Sexy Love is not the image of love that companies and entertainment sell. It is real love — the kind
+            that eliminates sickness, despair, and pain. Michele teaches it through comedy, media, and practical
+            courses so families can live their love story without character conflict.
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
+        </div>
+
+        <div className="mt-14 grid gap-8 sm:grid-cols-3">
+          {sexyLoveCards.map((c) => (
+            <div key={c.title} className="rounded-2xl border border-ink/10 bg-white p-8 card-shadow">
+              <span className="grid h-10 w-10 place-items-center rounded-full gradient-rose font-display text-lg font-semibold text-cream">
+                {c.n}
+              </span>
+              <h3 className="mt-5 font-display text-xl font-semibold text-ink">{c.title}</h3>
+              <p className="mt-3 text-sm text-muted">{c.body}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-16 rounded-3xl gradient-rose px-8 py-14 text-center text-cream">
+          <p className="text-xs font-semibold uppercase tracking-widest text-softgold">Core Insight</p>
+          <p className="mx-auto mt-4 max-w-2xl font-display text-2xl italic sm:text-3xl">
+            &ldquo;Love eliminates sickness, despair, or pain. Are you associating love with pain? Stop doing
+            that.&rdquo;
+          </p>
+          <p className="mt-4 text-sm text-cream/80">— Michele Collins</p>
+        </div>
+      </section>
+
+      {/* WATCH */}
+      <section id="watch" className="bg-white py-24">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
+            <div className="max-w-xl">
+              <h2 className="font-display text-3xl font-bold text-ink sm:text-4xl">Watch Our Entertainment</h2>
+              <p className="mt-4 text-muted">
+                Become part of a loving community. We produce content specifically for customers and their families
+                — entertainment designed to build, not break.
+              </p>
+            </div>
             <a
               href={site.youtube}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full bg-gold px-7 py-3 text-sm font-semibold text-royal hover:bg-gold-light"
+              className="shrink-0 text-sm font-semibold text-deeprose hover:underline"
+            >
+              Visit full YouTube channel →
+            </a>
+          </div>
+
+          <div className="mt-12 grid gap-8 sm:grid-cols-3">
+            {videoSlots.map((slot) => {
+              const entry = content.videos[slot.slug];
+              const url = entry?.url || "";
+              const title = entry?.title?.trim() || slot.defaultTitle;
+              const duration = entry?.duration || slot.defaultDuration;
+              const embedUrl = url ? getYouTubeEmbedUrl(url) : null;
+              const isDirect = url ? isDirectVideoFile(url) : false;
+
+              return (
+                <article key={slot.slug} className="overflow-hidden rounded-2xl border border-ink/10 card-shadow">
+                  <div className="aspect-video bg-ink/90">
+                    {embedUrl ? (
+                      <iframe
+                        src={embedUrl}
+                        title={title}
+                        className="h-full w-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    ) : isDirect ? (
+                      <video src={url} controls className="h-full w-full" />
+                    ) : (
+                      <a
+                        href={url || site.youtube}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex h-full w-full items-center justify-center text-sm font-semibold text-cream/80"
+                      >
+                        Watch episode →
+                      </a>
+                    )}
+                  </div>
+                  <div className="p-6">
+                    <h3 className="font-display text-lg font-semibold text-ink">{title}</h3>
+                    <p className="mt-1 text-xs text-muted">
+                      {duration}
+                      {slot.tag ? ` · ${slot.tag}` : ""}
+                    </p>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+
+          <div className="mt-12 text-center">
+            <a
+              href={site.youtube}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block rounded-full gradient-rose px-7 py-3 text-sm font-semibold text-cream transition hover:opacity-90"
             >
               Watch Us on YouTube
             </a>
-            <Link href="/contact" className="rounded-full border border-paper/30 px-7 py-3 text-sm font-semibold hover:bg-paper/10">
-              Contact Us
-            </Link>
           </div>
+        </div>
+      </section>
+
+      {/* OFFERS */}
+      <section id="offers" className="mx-auto max-w-6xl px-6 py-24">
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="text-xs font-semibold uppercase tracking-widest text-deeprose">Uknighted Campaign</p>
+          <h2 className="mt-4 font-display text-3xl font-bold text-ink sm:text-4xl">How to Get Uknighted</h2>
+          <p className="mt-6 text-muted">
+            Everything points back to the same purpose: learning real Sexy Love and building families that last.
+          </p>
+        </div>
+
+        <div className="mt-14 grid gap-8 lg:grid-cols-2">
+          <div className="rounded-3xl border border-ink/10 bg-white p-8 card-shadow">
+            <p className="text-xs font-semibold uppercase tracking-widest text-softgold">Free</p>
+            <h3 className="mt-3 font-display text-2xl font-semibold text-ink">Sexy Church Online</h3>
+            <p className="mt-3 text-muted">
+              Bible-based love lessons available on demand and weekly live. Experience real love without
+              transaction.
+            </p>
+            <a
+              href={site.youtube}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 inline-block rounded-full border border-ink/20 px-6 py-3 text-sm font-semibold text-ink transition hover:bg-ink/5"
+            >
+              Attend Free Sexy Church
+            </a>
+          </div>
+
+          <div className="rounded-3xl gradient-rose p-8 text-cream card-shadow">
+            <p className="text-xs font-semibold uppercase tracking-widest text-softgold">Most Popular</p>
+            <h3 className="mt-3 font-display text-2xl font-semibold">Keep Love Sexy — $50</h3>
+            <p className="mt-3 text-cream/85">
+              Online Zoom course (max 10 people). Learn how companies sell versions of love — and how to live
+              without pain or conflict. Based on Award Winning Mindset™.
+            </p>
+            <ul className="mt-5 space-y-1 text-sm text-cream/85">
+              <li>• 25 min teaching</li>
+              <li>• 20 min Q&amp;A</li>
+              <li>• 15 min quiz</li>
+            </ul>
+            <a
+              href="#join"
+              className="mt-8 inline-block rounded-full bg-cream px-6 py-3 text-sm font-semibold text-deeprose transition hover:opacity-90"
+            >
+              Reserve Your Spot
+            </a>
+          </div>
+        </div>
+
+        <div className="mt-14">
+          <h3 className="text-center text-xs font-semibold uppercase tracking-widest text-muted">Also Available</h3>
+          <div className="mt-6 grid gap-6 sm:grid-cols-3">
+            {alsoAvailable.map((a) => (
+              <div key={a.title} className="rounded-2xl border border-ink/10 bg-white p-6 text-center">
+                <p className="font-display text-lg font-semibold text-ink">{a.title}</p>
+                <p className="mt-2 text-sm text-muted">{a.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* JOIN */}
+      <section id="join" className="bg-ink py-24 text-cream">
+        <div className="mx-auto max-w-xl px-6 text-center">
+          <h2 className="font-display text-3xl font-bold sm:text-4xl">Get Uknighted Today</h2>
+          <p className="mt-6 text-cream/80">
+            Sign up for news, free Sexy Church invitations, and early access to classes. Join the movement of
+            families choosing love that lasts.
+          </p>
+          <NewsletterForm variant="footer" />
+          <p className="mt-4 text-xs text-cream/50">We respect your inbox. Unsubscribe anytime.</p>
         </div>
       </section>
     </>

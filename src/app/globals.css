@@ -1,27 +1,49 @@
 @import "tailwindcss";
 
+/* Self-hosted fonts (no network calls at build/runtime) */
+@import "@fontsource/playfair-display/500.css";
+@import "@fontsource/playfair-display/600.css";
+@import "@fontsource/playfair-display/700.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+
 :root {
-  --color-ink: #1a1330;
-  --color-paper: #fffaf3;
+  /* Public site palette */
+  --color-cream: #fdf8f3;
+  --color-ink: #2c2420;
+  --color-softgold: #d4a574;
+  --color-deeprose: #9b4d5a;
+  --color-deeprose-dark: #7a3b46;
+  --color-muted: #6b5f57;
+
+  /* Legacy tokens kept for the admin dashboard */
+  --color-paper: #fdf8f3;
   --color-royal: #2e1065;
   --color-royal-light: #4c1d95;
   --color-gold: #d4a017;
   --color-gold-light: #f2c94c;
-  --color-rose: #b83280;
-  --color-muted: #6b6280;
+  --color-rose: #9b4d5a;
 }
 
 @theme inline {
+  --color-cream: var(--color-cream);
   --color-ink: var(--color-ink);
+  --color-softgold: var(--color-softgold);
+  --color-deeprose: var(--color-deeprose);
+  --color-deeprose-dark: var(--color-deeprose-dark);
+  --color-muted: var(--color-muted);
+
   --color-paper: var(--color-paper);
   --color-royal: var(--color-royal);
   --color-royal-light: var(--color-royal-light);
   --color-gold: var(--color-gold);
   --color-gold-light: var(--color-gold-light);
   --color-rose: var(--color-rose);
-  --color-muted: var(--color-muted);
-  --font-sans: "Segoe UI", system-ui, -apple-system, sans-serif;
-  --font-serif: Georgia, "Times New Roman", serif;
+
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
 }
 
 * {
@@ -33,7 +55,7 @@ html {
 }
 
 body {
-  background: var(--color-paper);
+  background: var(--color-cream);
   color: var(--color-ink);
   font-family: var(--font-sans);
 }
@@ -42,19 +64,23 @@ body {
   font-family: var(--font-serif);
 }
 
+.gradient-rose {
+  background: linear-gradient(135deg, var(--color-deeprose) 0%, var(--color-deeprose-dark) 100%);
+}
+
 .gradient-royal {
   background: radial-gradient(circle at 20% 20%, var(--color-royal-light) 0%, var(--color-royal) 45%, #1a0f3d 100%);
 }
 
 .text-gradient-gold {
-  background: linear-gradient(90deg, var(--color-gold-light), var(--color-gold));
+  background: linear-gradient(90deg, var(--color-softgold), var(--color-deeprose));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 .card-shadow {
-  box-shadow: 0 20px 40px -20px rgba(46, 16, 101, 0.25);
+  box-shadow: 0 20px 40px -20px rgba(44, 36, 32, 0.2);
 }
 
 .skip-link:focus {
