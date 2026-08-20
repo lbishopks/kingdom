@@ -118,7 +118,13 @@ function getYouTubeEmbedUrl(url: string): string | null {
       id = parsed.searchParams.get("v");
     } else if (parsed.pathname.startsWith("/embed/")) {
       id = parsed.pathname.replace("/embed/", "");
+    } else if (parsed.pathname.startsWith("/shorts/")) {
+      id = parsed.pathname.replace("/shorts/", "");
+    } else if (parsed.pathname.startsWith("/live/")) {
+      id = parsed.pathname.replace("/live/", "");
     }
+    // Strip any trailing path segments or slashes left over (e.g. /shorts/ID/ or /shorts/ID/edit)
+    if (id) id = id.split("/")[0];
     return id ? `https://www.youtube-nocookie.com/embed/${id}` : null;
   } catch {
     return null;
