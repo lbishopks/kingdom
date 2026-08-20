@@ -53,10 +53,21 @@ export default function Dashboard({ initialContent }: { initialContent: SiteCont
     }));
   }
 
-  function handleOffersPopularChange(field: keyof OffersContent["popular"], value: string) {
+  function handleOffersPopularChange(
+    field: "label" | "title" | "description" | "bullets" | "buttonText",
+    value: string,
+  ) {
     setContent((prev) => ({
       ...prev,
       offers: { ...prev.offers, popular: { ...prev.offers.popular, [field]: value } },
+    }));
+  }
+
+  function handlePopularPriceChange(dollars: string) {
+    const cents = Math.max(0, Math.round(Number(dollars || "0") * 100));
+    setContent((prev) => ({
+      ...prev,
+      offers: { ...prev.offers, popular: { ...prev.offers.popular, priceCents: Number.isFinite(cents) ? cents : 0 } },
     }));
   }
 
@@ -349,6 +360,24 @@ export default function Dashboard({ initialContent }: { initialContent: SiteCont
               onChange={(e) => handleOffersPopularChange("description", e.target.value)}
               className="mt-1 w-full rounded-lg border border-royal/20 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-royal"
             />
+          </div>
+          <div>
+            <label htmlFor="offers-popular-price" className="text-sm font-medium text-ink">
+              Price (USD)
+            </label>
+            <input
+              id="offers-popular-price"
+              type="number"
+              min="0"
+              step="0.01"
+              value={(content.offers.popular.priceCents / 100).toString()}
+              onChange={(e) => handlePopularPriceChange(e.target.value)}
+              className="mt-1 w-full rounded-lg border border-royal/20 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-royal"
+            />
+            <p className="mt-1 text-xs text-muted">
+              Charged via Stripe Checkout when someone clicks the button below. Set to 0 to disable payment and link
+              to the newsletter section instead.
+            </p>
           </div>
           <div>
             <label htmlFor="offers-popular-bullets" className="text-sm font-medium text-ink">
