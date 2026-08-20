@@ -3,7 +3,6 @@ import Image from "next/image";
 import { site, videoSlots } from "@/lib/site";
 import { getContent } from "@/lib/content";
 import NewsletterForm from "@/components/NewsletterForm";
-import CalendlyEmbed from "@/components/CalendlyEmbed";
 import CheckoutButton from "@/components/CheckoutButton";
 
 export const dynamic = "force-dynamic";
@@ -448,28 +447,10 @@ export default async function HomePage() {
             lives in content.offers.alsoAvailable / admin dashboard if it's needed again. */}
       </section>
 
-      {/* BOOK */}
-      <section id="book" className="mx-auto max-w-6xl px-6 py-24">
-        <div className="mx-auto max-w-2xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-widest text-deeprose">{content.booking.eyebrow}</p>
-          <h2 className="mt-4 font-display text-3xl font-bold text-ink sm:text-4xl">{content.booking.heading}</h2>
-          <p className="mt-6 text-muted">{content.booking.description}</p>
-        </div>
-
-        {content.booking.calendlyUrl ? (
-          <CalendlyEmbed url={content.booking.calendlyUrl} />
-        ) : (
-          <div className="mx-auto mt-10 max-w-md rounded-3xl border border-ink/10 bg-white p-8 text-center card-shadow">
-            <p className="text-sm text-muted">Online booking is coming soon. Reach out directly in the meantime.</p>
-            <a
-              href={`mailto:${site.email}`}
-              className="mt-6 inline-block rounded-full gradient-rose px-6 py-3 text-sm font-semibold text-cream transition hover:opacity-90"
-            >
-              {content.booking.buttonText}
-            </a>
-          </div>
-        )}
-      </section>
+      {/* BOOK section removed from public display per request — customers should not be able
+          to schedule an appointment until after they've paid. The Calendly embed now only
+          appears on the post-payment /checkout/success page. Content model (content.booking)
+          and CalendlyEmbed component are left intact for that purpose. */}
 
       {/* JOIN */}
       <section id="join" className="bg-ink py-24 text-cream">
