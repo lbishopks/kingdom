@@ -320,6 +320,37 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* SONG */}
+      <section id="song" className="bg-paper py-24">
+        <div className="mx-auto max-w-4xl px-6 text-center">
+          <p className="text-xs font-semibold uppercase tracking-widest text-deeprose">Now Playing</p>
+          <h2 className="mt-4 font-display text-3xl font-bold text-ink sm:text-4xl">
+            &ldquo;{site.song.title}&rdquo; — {site.song.artist}
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-muted">
+            Michele&rsquo;s original song, straight from the heart of the Uknighted Kingdom message.
+          </p>
+
+          <div className="mx-auto mt-10 max-w-lg overflow-hidden rounded-2xl border border-ink/10 bg-white card-shadow">
+            <iframe
+              title={`${site.song.title} — ${site.song.artist}`}
+              src={site.song.embedUrl}
+              seamless
+              className="h-[120px] w-full"
+            />
+          </div>
+
+          <a
+            href={site.song.bandcampUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-8 inline-block rounded-full gradient-rose px-7 py-3 text-sm font-semibold text-cream transition hover:opacity-90"
+          >
+            Listen &amp; Buy on Bandcamp
+          </a>
+        </div>
+      </section>
+
       {/* STORY */}
       <section id="story" className="bg-white py-24">
         <div className="mx-auto max-w-4xl px-6">
