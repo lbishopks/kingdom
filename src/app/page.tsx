@@ -272,7 +272,6 @@ export default async function HomePage() {
               const entry = content.videos[slot.slug];
               const url = entry?.url || "";
               const title = entry?.title?.trim() || slot.defaultTitle;
-              const duration = entry?.duration || slot.defaultDuration;
               const embedUrl = url ? getYouTubeEmbedUrl(url) : null;
               const isDirect = url ? isDirectVideoFile(url) : false;
 
@@ -302,10 +301,6 @@ export default async function HomePage() {
                   </div>
                   <div className="p-6">
                     <h3 className="font-display text-lg font-semibold text-ink">{title}</h3>
-                    <p className="mt-1 text-xs text-muted">
-                      {duration}
-                      {slot.tag ? ` · ${slot.tag}` : ""}
-                    </p>
                   </div>
                 </article>
               );
