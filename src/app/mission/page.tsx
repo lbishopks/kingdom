@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
-import { audiences } from "@/lib/site";
+import { audiences, site } from "@/lib/site";
+import { getContent } from "@/lib/content";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Our Mission",
@@ -27,7 +30,9 @@ const pillars = [
   },
 ];
 
-export default function MissionPage() {
+export default async function MissionPage() {
+  const content = await getContent();
+
   return (
     <>
       <section className="gradient-royal py-20 text-paper">
@@ -46,6 +51,14 @@ export default function MissionPage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-6 py-20">
+        {content.images.mission && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={content.images.mission}
+            alt={`${site.name} mission`}
+            className="mb-12 aspect-[21/9] w-full rounded-2xl object-cover card-shadow"
+          />
+        )}
         <div className="grid gap-8 sm:grid-cols-2">
           {pillars.map((p) => (
             <div key={p.title} className="rounded-2xl border border-royal/10 p-8 card-shadow">

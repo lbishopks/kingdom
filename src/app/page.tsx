@@ -2,6 +2,9 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import NewsletterForm from "@/components/NewsletterForm";
 import { audiences, contentSeries, site } from "@/lib/site";
+import { getContent } from "@/lib/content";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: `${site.name} | ${site.tagline}`,
@@ -15,11 +18,22 @@ const stats = [
   { value: "4", label: "original content series built around healthy love, faith, and family." },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const content = await getContent();
+
   return (
     <>
       <section className="gradient-royal relative overflow-hidden text-paper">
-        <div className="mx-auto grid max-w-6xl gap-10 px-6 py-24 md:grid-cols-[1.1fr_0.9fr] md:py-32">
+        {content.images.hero && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={content.images.hero}
+            alt=""
+            aria-hidden
+            className="absolute inset-0 h-full w-full object-cover opacity-25"
+          />
+        )}
+        <div className="relative mx-auto grid max-w-6xl gap-10 px-6 py-24 md:grid-cols-[1.1fr_0.9fr] md:py-32">
           <div>
             <p className="inline-block rounded-full bg-paper/10 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-gold-light">
               Faith-Rooted Family Media

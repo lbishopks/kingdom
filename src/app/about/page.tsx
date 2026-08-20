@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { site } from "@/lib/site";
+import { getContent } from "@/lib/content";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Our Story",
@@ -9,7 +12,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about" },
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const content = await getContent();
+
   return (
     <>
       <section className="gradient-royal py-20 text-paper">
@@ -24,6 +29,14 @@ export default function AboutPage() {
       </section>
 
       <section className="mx-auto max-w-3xl px-6 py-20">
+        {content.images.about && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={content.images.about}
+            alt={`${site.name} team`}
+            className="mb-12 aspect-video w-full rounded-2xl object-cover card-shadow"
+          />
+        )}
         <div className="space-y-6 text-lg leading-relaxed text-ink/85">
           <p>
             We started asking a hard question: if it only takes the brain 80–100 milliseconds to form a perspective,
