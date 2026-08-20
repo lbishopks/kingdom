@@ -207,6 +207,11 @@ export default async function HomePage() {
         </div>
 
         <div className="border-y border-ink/10 bg-white">
+          <div className="mx-auto max-w-6xl px-6 pt-10">
+            <h2 className="text-center font-display text-xl font-semibold text-ink sm:text-2xl">
+              How much time do you consume watching entertainment daily?
+            </h2>
+          </div>
           <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-6 py-10 sm:grid-cols-3">
             {stats.map((s) => (
               <div key={s.label} className="text-center">
