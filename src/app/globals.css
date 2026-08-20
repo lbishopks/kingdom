@@ -1,26 +1,62 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-ink: #1a1330;
+  --color-paper: #fffaf3;
+  --color-royal: #2e1065;
+  --color-royal-light: #4c1d95;
+  --color-gold: #d4a017;
+  --color-gold-light: #f2c94c;
+  --color-rose: #b83280;
+  --color-muted: #6b6280;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ink: var(--color-ink);
+  --color-paper: var(--color-paper);
+  --color-royal: var(--color-royal);
+  --color-royal-light: var(--color-royal-light);
+  --color-gold: var(--color-gold);
+  --color-gold-light: var(--color-gold-light);
+  --color-rose: var(--color-rose);
+  --color-muted: var(--color-muted);
+  --font-sans: "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+.font-display {
+  font-family: var(--font-serif);
+}
+
+.gradient-royal {
+  background: radial-gradient(circle at 20% 20%, var(--color-royal-light) 0%, var(--color-royal) 45%, #1a0f3d 100%);
+}
+
+.text-gradient-gold {
+  background: linear-gradient(90deg, var(--color-gold-light), var(--color-gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.card-shadow {
+  box-shadow: 0 20px 40px -20px rgba(46, 16, 101, 0.25);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
 }
