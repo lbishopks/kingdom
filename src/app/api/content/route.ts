@@ -14,7 +14,7 @@ export async function PUT(request: Request) {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
 
-  if (!body || typeof body !== "object" || !body.images || !body.videos) {
+  if (!body || typeof body !== "object" || typeof body.photo !== "string" || !body.videos) {
     return NextResponse.json({ error: "Malformed content payload." }, { status: 400 });
   }
 
