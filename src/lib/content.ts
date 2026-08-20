@@ -30,6 +30,7 @@ export type OffersContent = {
     description: string;
     bullets: string; // newline-separated lines
     buttonText: string;
+    priceCents: number; // charged via Stripe Checkout when "Reserve Your Spot" is clicked
   };
   alsoAvailableHeading: string;
   alsoAvailable: OfferItem[];
@@ -67,6 +68,7 @@ export const defaultOffers: OffersContent = {
       "Online Zoom course (max 10 people). Learn how companies sell versions of love — and how to live without pain or conflict. Based on Award Winning Mindset™.",
     bullets: "25 min teaching\n20 min Q&A\n15 min quiz",
     buttonText: "Reserve Your Spot",
+    priceCents: 5000,
   },
   alsoAvailableHeading: "Also Available",
   alsoAvailable: [
@@ -158,6 +160,10 @@ function normalizeOffers(raw: unknown): OffersContent {
       description: typeof popular.description === "string" ? popular.description : defaultOffers.popular.description,
       bullets: typeof popular.bullets === "string" ? popular.bullets : defaultOffers.popular.bullets,
       buttonText: typeof popular.buttonText === "string" ? popular.buttonText : defaultOffers.popular.buttonText,
+      priceCents:
+        typeof popular.priceCents === "number" && Number.isFinite(popular.priceCents) && popular.priceCents >= 0
+          ? Math.round(popular.priceCents)
+          : defaultOffers.popular.priceCents,
     },
     alsoAvailableHeading:
       typeof o.alsoAvailableHeading === "string" ? o.alsoAvailableHeading : defaultOffers.alsoAvailableHeading,
