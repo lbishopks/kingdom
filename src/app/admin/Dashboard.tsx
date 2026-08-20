@@ -29,7 +29,7 @@ export default function Dashboard({ initialContent }: { initialContent: SiteCont
     }
   }
 
-  function handleVideoFieldChange(slug: string, field: "title" | "url" | "duration", value: string) {
+  function handleVideoFieldChange(slug: string, field: "title" | "url", value: string) {
     setContent((prev) => ({
       ...prev,
       videos: {
@@ -126,9 +126,9 @@ export default function Dashboard({ initialContent }: { initialContent: SiteCont
       <div className="mt-12 space-y-4">
         <h2 className="font-display text-xl font-semibold text-royal">Watch Videos</h2>
         <p className="text-sm text-muted">
-          These three videos appear in the Watch section. Each has a title, a duration label, and a video link —
-          all editable any time. Links can be a YouTube URL or a direct link to a video file (e.g. ending in .mp4)
-          hosted anywhere else. Leave the link blank to hide playback and show a link to your channel instead.
+          These three videos appear in the Watch section. Each has a title and a video link — both editable any
+          time. Links can be a YouTube URL or a direct link to a video file (e.g. ending in .mp4) hosted anywhere
+          else. Leave the link blank to hide playback and show a link to your channel instead.
         </p>
         <div className="grid gap-6 sm:grid-cols-2">
           {videoSlots.map((slot) => {
@@ -148,18 +148,6 @@ export default function Dashboard({ initialContent }: { initialContent: SiteCont
                   placeholder={slot.defaultTitle}
                   value={entry.title}
                   onChange={(e) => handleVideoFieldChange(slot.slug, "title", e.target.value)}
-                  className="mt-1 w-full rounded-lg border border-royal/20 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-royal"
-                />
-
-                <label htmlFor={`video-duration-${slot.slug}`} className="mt-3 block text-sm font-medium text-ink">
-                  Duration label
-                </label>
-                <input
-                  id={`video-duration-${slot.slug}`}
-                  type="text"
-                  placeholder={slot.defaultDuration}
-                  value={entry.duration}
-                  onChange={(e) => handleVideoFieldChange(slot.slug, "duration", e.target.value)}
                   className="mt-1 w-full rounded-lg border border-royal/20 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-royal"
                 />
 
