@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { getStripe } from "@/lib/stripe";
+import { getContent } from "@/lib/content";
+import CalendlyEmbed from "@/components/CalendlyEmbed";
 
 export const dynamic = "force-dynamic";
 
@@ -25,9 +27,10 @@ export default async function CheckoutSuccessPage({
 }) {
   const { session_id } = await searchParams;
   const summary = await getSessionSummary(session_id);
+  const content = summary ? await getContent() : null;
 
   return (
-    <section className="mx-auto flex min-h-[70vh] max-w-xl flex-col items-center justify-center px-6 py-24 text-center">
+    <section className="mx-auto flex min-h-[70vh] max-w-3xl flex-col items-center justify-center px-6 py-24 text-center">
       <p className="text-xs font-semibold uppercase tracking-widest text-deeprose">Reservation Confirmed</p>
       <h1 className="mt-4 font-display text-3xl font-bold text-ink sm:text-4xl">You&apos;re In!</h1>
       <p className="mt-6 text-muted">
@@ -36,6 +39,15 @@ export default async function CheckoutSuccessPage({
           : "Your payment went through. "}
         Michele will follow up by email with your Zoom link and class time before the session.
       </p>
+
+      {content?.booking.calendlyUrl && (
+        <div className="mt-10 w-full">
+          <h2 className="font-display text-2xl font-bold text-ink">{content.booking.heading}</h2>
+          <p className="mt-3 text-muted">{content.booking.description}</p>
+          <CalendlyEmbed url={content.booking.calendlyUrl} />
+        </div>
+      )}
+
       <Link
         href="/"
         className="mt-8 inline-block rounded-full gradient-rose px-6 py-3 text-sm font-semibold text-cream transition hover:opacity-90"
