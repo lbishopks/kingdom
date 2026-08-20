@@ -25,9 +25,9 @@ export const site = {
 
 export const nav = [
   { href: "#purpose", label: "Purpose" },
+  { href: "#watch", label: "Watch" },
   { href: "#story", label: "Michele's Story" },
   { href: "#sexy-love", label: "Sexy Love" },
-  { href: "#watch", label: "Watch" },
   { href: "#offers", label: "Offers" },
 ];
 
