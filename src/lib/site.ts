@@ -30,7 +30,6 @@ export const nav = [
   { href: "#story", label: "Michele's Story" },
   { href: "#sexy-love", label: "Sexy Love" },
   { href: "#offers", label: "Offers" },
-  { href: "#book", label: "Book" },
 ];
 
 // Default video slots shown on the Watch section. These can be edited (title,
