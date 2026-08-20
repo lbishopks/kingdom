@@ -240,71 +240,6 @@ export default async function HomePage() {
         </p>
       </section>
 
-      {/* STORY */}
-      <section id="story" className="bg-white py-24">
-        <div className="mx-auto max-w-4xl px-6">
-          <div className="text-center">
-            <h2 className="font-display text-3xl font-bold text-ink sm:text-4xl">Michele&rsquo;s Story</h2>
-            <p className="mt-6 text-muted">
-              From a difficult past and 25 years at the top of Fortune 500 sales to losing everything — and then
-              finding real love in a Bible. This is the journey that created Uknighted Kingdom.
-            </p>
-          </div>
-
-          <div className="mt-16 space-y-14 border-l-2 border-softgold/50 pl-8">
-            {timeline.map((t) => (
-              <div key={t.title} className="relative">
-                <span
-                  aria-hidden
-                  className="absolute -left-[2.55rem] top-1 h-4 w-4 rounded-full gradient-rose"
-                />
-                <p className="text-xs font-semibold uppercase tracking-widest text-deeprose">{t.era}</p>
-                <h3 className="mt-2 font-display text-2xl font-semibold text-ink">{t.title}</h3>
-                <div className="mt-4 space-y-4 text-muted">
-                  {t.body.map((p, i) => (
-                    <p key={i}>{p}</p>
-                  ))}
-                </div>
-                <p className="mt-4 font-display text-lg italic text-deeprose">&ldquo;{t.quote}&rdquo;</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SEXY LOVE */}
-      <section id="sexy-love" className="mx-auto max-w-6xl px-6 py-24">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="font-display text-3xl font-bold text-ink sm:text-4xl">What is Sexy Love?</h2>
-          <p className="mt-6 text-muted">
-            Sexy Love is not the image of love that companies and entertainment sell. It is real love — the kind
-            that eliminates sickness, despair, and pain. Michele teaches it through comedy, media, and practical
-            courses so families can live their love story without character conflict.
-          </p>
-        </div>
-
-        <div className="mt-14 grid gap-8 sm:grid-cols-3">
-          {sexyLoveCards.map((c) => (
-            <div key={c.title} className="rounded-2xl border border-ink/10 bg-white p-8 card-shadow">
-              <span className="grid h-10 w-10 place-items-center rounded-full gradient-rose font-display text-lg font-semibold text-cream">
-                {c.n}
-              </span>
-              <h3 className="mt-5 font-display text-xl font-semibold text-ink">{c.title}</h3>
-              <p className="mt-3 text-sm text-muted">{c.body}</p>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-16 rounded-3xl gradient-rose px-8 py-14 text-center text-cream">
-          <p className="text-xs font-semibold uppercase tracking-widest text-softgold">Core Insight</p>
-          <p className="mx-auto mt-4 max-w-2xl font-display text-2xl italic sm:text-3xl">
-            &ldquo;Love eliminates sickness, despair, or pain. Are you associating love with pain? Stop doing
-            that.&rdquo;
-          </p>
-          <p className="mt-4 text-sm text-cream/80">— Michele Collins</p>
-        </div>
-      </section>
-
       {/* WATCH */}
       <section id="watch" className="bg-white py-24">
         <div className="mx-auto max-w-6xl px-6">
@@ -381,6 +316,71 @@ export default async function HomePage() {
               Watch Us on YouTube
             </a>
           </div>
+        </div>
+      </section>
+
+      {/* STORY */}
+      <section id="story" className="bg-white py-24">
+        <div className="mx-auto max-w-4xl px-6">
+          <div className="text-center">
+            <h2 className="font-display text-3xl font-bold text-ink sm:text-4xl">Michele&rsquo;s Story</h2>
+            <p className="mt-6 text-muted">
+              From a difficult past and 25 years at the top of Fortune 500 sales to losing everything — and then
+              finding real love in a Bible. This is the journey that created Uknighted Kingdom.
+            </p>
+          </div>
+
+          <div className="mt-16 space-y-14 border-l-2 border-softgold/50 pl-8">
+            {timeline.map((t) => (
+              <div key={t.title} className="relative">
+                <span
+                  aria-hidden
+                  className="absolute -left-[2.55rem] top-1 h-4 w-4 rounded-full gradient-rose"
+                />
+                <p className="text-xs font-semibold uppercase tracking-widest text-deeprose">{t.era}</p>
+                <h3 className="mt-2 font-display text-2xl font-semibold text-ink">{t.title}</h3>
+                <div className="mt-4 space-y-4 text-muted">
+                  {t.body.map((p, i) => (
+                    <p key={i}>{p}</p>
+                  ))}
+                </div>
+                <p className="mt-4 font-display text-lg italic text-deeprose">&ldquo;{t.quote}&rdquo;</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SEXY LOVE */}
+      <section id="sexy-love" className="mx-auto max-w-6xl px-6 py-24">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="font-display text-3xl font-bold text-ink sm:text-4xl">What is Sexy Love?</h2>
+          <p className="mt-6 text-muted">
+            Sexy Love is not the image of love that companies and entertainment sell. It is real love — the kind
+            that eliminates sickness, despair, and pain. Michele teaches it through comedy, media, and practical
+            courses so families can live their love story without character conflict.
+          </p>
+        </div>
+
+        <div className="mt-14 grid gap-8 sm:grid-cols-3">
+          {sexyLoveCards.map((c) => (
+            <div key={c.title} className="rounded-2xl border border-ink/10 bg-white p-8 card-shadow">
+              <span className="grid h-10 w-10 place-items-center rounded-full gradient-rose font-display text-lg font-semibold text-cream">
+                {c.n}
+              </span>
+              <h3 className="mt-5 font-display text-xl font-semibold text-ink">{c.title}</h3>
+              <p className="mt-3 text-sm text-muted">{c.body}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-16 rounded-3xl gradient-rose px-8 py-14 text-center text-cream">
+          <p className="text-xs font-semibold uppercase tracking-widest text-softgold">Core Insight</p>
+          <p className="mx-auto mt-4 max-w-2xl font-display text-2xl italic sm:text-3xl">
+            &ldquo;Love eliminates sickness, despair, or pain. Are you associating love with pain? Stop doing
+            that.&rdquo;
+          </p>
+          <p className="mt-4 text-sm text-cream/80">— Michele Collins</p>
         </div>
       </section>
 
