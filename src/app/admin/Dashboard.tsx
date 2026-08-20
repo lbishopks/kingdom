@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import type { SiteContent } from "@/lib/content";
+import type { OffersContent, SiteContent } from "@/lib/content";
 import { videoSlots } from "@/lib/site";
 
 export default function Dashboard({ initialContent }: { initialContent: SiteContent }) {
@@ -36,6 +36,49 @@ export default function Dashboard({ initialContent }: { initialContent: SiteCont
         ...prev.videos,
         [slug]: { ...prev.videos[slug], [field]: value },
       },
+    }));
+  }
+
+  function handleOffersFieldChange(field: "eyebrow" | "heading" | "description" | "alsoAvailableHeading", value: string) {
+    setContent((prev) => ({
+      ...prev,
+      offers: { ...prev.offers, [field]: value },
+    }));
+  }
+
+  function handleOffersFreeChange(field: keyof OffersContent["free"], value: string) {
+    setContent((prev) => ({
+      ...prev,
+      offers: { ...prev.offers, free: { ...prev.offers.free, [field]: value } },
+    }));
+  }
+
+  function handleOffersPopularChange(field: keyof OffersContent["popular"], value: string) {
+    setContent((prev) => ({
+      ...prev,
+      offers: { ...prev.offers, popular: { ...prev.offers.popular, [field]: value } },
+    }));
+  }
+
+  function handleAlsoAvailableChange(index: number, field: "title" | "description", value: string) {
+    setContent((prev) => ({
+      ...prev,
+      offers: {
+        ...prev.offers,
+        alsoAvailable: prev.offers.alsoAvailable.map((item, i) =>
+          i === index ? { ...item, [field]: value } : item,
+        ),
+      },
+    }));
+  }
+
+  function handleBookingFieldChange(
+    field: "eyebrow" | "heading" | "description" | "calendlyUrl" | "buttonText",
+    value: string,
+  ) {
+    setContent((prev) => ({
+      ...prev,
+      booking: { ...prev.booking, [field]: value },
     }));
   }
 
@@ -165,6 +208,287 @@ export default function Dashboard({ initialContent }: { initialContent: SiteCont
               </div>
             );
           })}
+        </div>
+      </div>
+
+      <div className="mt-12 space-y-6">
+        <div>
+          <h2 className="font-display text-xl font-semibold text-royal">How to Get Uknighted (Offers)</h2>
+          <p className="text-sm text-muted">
+            Everything in the offers section near the bottom of the homepage — headings, the free and paid cards,
+            and the &quot;Also Available&quot; row. Edit any text below; it goes live after you save.
+          </p>
+        </div>
+
+        <div className="rounded-2xl border border-royal/10 p-5 space-y-3">
+          <h3 className="text-sm font-semibold text-ink">Section Intro</h3>
+          <div>
+            <label htmlFor="offers-eyebrow" className="text-sm font-medium text-ink">
+              Eyebrow
+            </label>
+            <input
+              id="offers-eyebrow"
+              type="text"
+              value={content.offers.eyebrow}
+              onChange={(e) => handleOffersFieldChange("eyebrow", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-royal/20 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-royal"
+            />
+          </div>
+          <div>
+            <label htmlFor="offers-heading" className="text-sm font-medium text-ink">
+              Heading
+            </label>
+            <input
+              id="offers-heading"
+              type="text"
+              value={content.offers.heading}
+              onChange={(e) => handleOffersFieldChange("heading", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-royal/20 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-royal"
+            />
+          </div>
+          <div>
+            <label htmlFor="offers-description" className="text-sm font-medium text-ink">
+              Description
+            </label>
+            <textarea
+              id="offers-description"
+              rows={2}
+              value={content.offers.description}
+              onChange={(e) => handleOffersFieldChange("description", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-royal/20 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-royal"
+            />
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-royal/10 p-5 space-y-3">
+          <h3 className="text-sm font-semibold text-ink">Free Card — Sexy Church Online</h3>
+          <div>
+            <label htmlFor="offers-free-label" className="text-sm font-medium text-ink">
+              Label
+            </label>
+            <input
+              id="offers-free-label"
+              type="text"
+              value={content.offers.free.label}
+              onChange={(e) => handleOffersFreeChange("label", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-royal/20 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-royal"
+            />
+          </div>
+          <div>
+            <label htmlFor="offers-free-title" className="text-sm font-medium text-ink">
+              Title
+            </label>
+            <input
+              id="offers-free-title"
+              type="text"
+              value={content.offers.free.title}
+              onChange={(e) => handleOffersFreeChange("title", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-royal/20 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-royal"
+            />
+          </div>
+          <div>
+            <label htmlFor="offers-free-description" className="text-sm font-medium text-ink">
+              Description
+            </label>
+            <textarea
+              id="offers-free-description"
+              rows={2}
+              value={content.offers.free.description}
+              onChange={(e) => handleOffersFreeChange("description", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-royal/20 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-royal"
+            />
+          </div>
+          <div>
+            <label htmlFor="offers-free-button" className="text-sm font-medium text-ink">
+              Button Text
+            </label>
+            <input
+              id="offers-free-button"
+              type="text"
+              value={content.offers.free.buttonText}
+              onChange={(e) => handleOffersFreeChange("buttonText", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-royal/20 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-royal"
+            />
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-royal/10 p-5 space-y-3">
+          <h3 className="text-sm font-semibold text-ink">Popular Card — Keep Love Sexy</h3>
+          <div>
+            <label htmlFor="offers-popular-label" className="text-sm font-medium text-ink">
+              Label
+            </label>
+            <input
+              id="offers-popular-label"
+              type="text"
+              value={content.offers.popular.label}
+              onChange={(e) => handleOffersPopularChange("label", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-royal/20 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-royal"
+            />
+          </div>
+          <div>
+            <label htmlFor="offers-popular-title" className="text-sm font-medium text-ink">
+              Title
+            </label>
+            <input
+              id="offers-popular-title"
+              type="text"
+              value={content.offers.popular.title}
+              onChange={(e) => handleOffersPopularChange("title", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-royal/20 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-royal"
+            />
+          </div>
+          <div>
+            <label htmlFor="offers-popular-description" className="text-sm font-medium text-ink">
+              Description
+            </label>
+            <textarea
+              id="offers-popular-description"
+              rows={3}
+              value={content.offers.popular.description}
+              onChange={(e) => handleOffersPopularChange("description", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-royal/20 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-royal"
+            />
+          </div>
+          <div>
+            <label htmlFor="offers-popular-bullets" className="text-sm font-medium text-ink">
+              Bullet Points (one per line)
+            </label>
+            <textarea
+              id="offers-popular-bullets"
+              rows={3}
+              value={content.offers.popular.bullets}
+              onChange={(e) => handleOffersPopularChange("bullets", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-royal/20 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-royal"
+            />
+          </div>
+          <div>
+            <label htmlFor="offers-popular-button" className="text-sm font-medium text-ink">
+              Button Text
+            </label>
+            <input
+              id="offers-popular-button"
+              type="text"
+              value={content.offers.popular.buttonText}
+              onChange={(e) => handleOffersPopularChange("buttonText", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-royal/20 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-royal"
+            />
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-royal/10 p-5 space-y-3">
+          <h3 className="text-sm font-semibold text-ink">Also Available Row</h3>
+          <div>
+            <label htmlFor="offers-also-heading" className="text-sm font-medium text-ink">
+              Row Heading
+            </label>
+            <input
+              id="offers-also-heading"
+              type="text"
+              value={content.offers.alsoAvailableHeading}
+              onChange={(e) => handleOffersFieldChange("alsoAvailableHeading", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-royal/20 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-royal"
+            />
+          </div>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {content.offers.alsoAvailable.map((item, i) => (
+              <div key={i} className="rounded-xl border border-royal/10 p-4">
+                <label htmlFor={`also-title-${i}`} className="text-sm font-medium text-ink">
+                  Title
+                </label>
+                <input
+                  id={`also-title-${i}`}
+                  type="text"
+                  value={item.title}
+                  onChange={(e) => handleAlsoAvailableChange(i, "title", e.target.value)}
+                  className="mt-1 w-full rounded-lg border border-royal/20 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-royal"
+                />
+                <label htmlFor={`also-description-${i}`} className="mt-3 block text-sm font-medium text-ink">
+                  Description
+                </label>
+                <textarea
+                  id={`also-description-${i}`}
+                  rows={2}
+                  value={item.description}
+                  onChange={(e) => handleAlsoAvailableChange(i, "description", e.target.value)}
+                  className="mt-1 w-full rounded-lg border border-royal/20 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-royal"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-12 space-y-4">
+        <div>
+          <h2 className="font-display text-xl font-semibold text-royal">Book an Appointment (Calendly)</h2>
+          <p className="text-sm text-muted">
+            Paste your Calendly scheduling link below to show a live booking calendar on the site. Leave it blank to
+            show a &quot;coming soon&quot; message with an email link instead.
+          </p>
+        </div>
+        <div className="rounded-2xl border border-royal/10 p-5 space-y-3">
+          <div>
+            <label htmlFor="booking-eyebrow" className="text-sm font-medium text-ink">
+              Eyebrow
+            </label>
+            <input
+              id="booking-eyebrow"
+              type="text"
+              value={content.booking.eyebrow}
+              onChange={(e) => handleBookingFieldChange("eyebrow", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-royal/20 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-royal"
+            />
+          </div>
+          <div>
+            <label htmlFor="booking-heading" className="text-sm font-medium text-ink">
+              Heading
+            </label>
+            <input
+              id="booking-heading"
+              type="text"
+              value={content.booking.heading}
+              onChange={(e) => handleBookingFieldChange("heading", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-royal/20 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-royal"
+            />
+          </div>
+          <div>
+            <label htmlFor="booking-description" className="text-sm font-medium text-ink">
+              Description
+            </label>
+            <textarea
+              id="booking-description"
+              rows={2}
+              value={content.booking.description}
+              onChange={(e) => handleBookingFieldChange("description", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-royal/20 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-royal"
+            />
+          </div>
+          <div>
+            <label htmlFor="booking-url" className="text-sm font-medium text-ink">
+              Calendly Link
+            </label>
+            <input
+              id="booking-url"
+              type="url"
+              placeholder="https://calendly.com/your-handle"
+              value={content.booking.calendlyUrl}
+              onChange={(e) => handleBookingFieldChange("calendlyUrl", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-royal/20 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-royal"
+            />
+          </div>
+          <div>
+            <label htmlFor="booking-button" className="text-sm font-medium text-ink">
+              Fallback Button Text
+            </label>
+            <input
+              id="booking-button"
+              type="text"
+              value={content.booking.buttonText}
+              onChange={(e) => handleBookingFieldChange("buttonText", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-royal/20 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-royal"
+            />
+          </div>
         </div>
       </div>
 
