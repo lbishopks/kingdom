@@ -9,6 +9,7 @@ export const site = {
   youtube: "https://www.youtube.com/@uknightedkingdom",
   tiktok: "https://www.tiktok.com/@uknightedkingdom",
   instagram: "https://www.instagram.com/uknightedkingdom",
+  formspreeEndpoint: "https://formspree.io/f/xaewaarn",
   locale: "en_US",
   keywords: [
     "Uknighted Kingdom",
