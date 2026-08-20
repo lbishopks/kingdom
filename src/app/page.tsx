@@ -3,6 +3,7 @@ import Image from "next/image";
 import { site, videoSlots } from "@/lib/site";
 import { getContent } from "@/lib/content";
 import NewsletterForm from "@/components/NewsletterForm";
+import CalendlyEmbed from "@/components/CalendlyEmbed";
 
 export const dynamic = "force-dynamic";
 
@@ -97,12 +98,6 @@ const sexyLoveCards = [
     title: "For You",
     body: "Whether you feel cheated by love or simply want more, learn the formula that works — available free through our entertainment and Sexy Church.",
   },
-];
-
-const alsoAvailable = [
-  { title: "$300 — Choose Sexy Love", body: "1-hour message + improv comedy + quiz." },
-  { title: "Grace Under Glitter Tour", body: "Comedy shows + sponsorship packages." },
-  { title: "Merchandise", body: "Sexy Love t-shirts and more." },
 ];
 
 function getYouTubeEmbedUrl(url: string): string | null {
@@ -393,63 +388,88 @@ export default async function HomePage() {
       {/* OFFERS */}
       <section id="offers" className="mx-auto max-w-6xl px-6 py-24">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-widest text-deeprose">Uknighted Campaign</p>
-          <h2 className="mt-4 font-display text-3xl font-bold text-ink sm:text-4xl">How to Get Uknighted</h2>
-          <p className="mt-6 text-muted">
-            Everything points back to the same purpose: learning real Sexy Love and building families that last.
-          </p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-deeprose">{content.offers.eyebrow}</p>
+          <h2 className="mt-4 font-display text-3xl font-bold text-ink sm:text-4xl">{content.offers.heading}</h2>
+          <p className="mt-6 text-muted">{content.offers.description}</p>
         </div>
 
         <div className="mt-14 grid gap-8 lg:grid-cols-2">
           <div className="rounded-3xl border border-ink/10 bg-white p-8 card-shadow">
-            <p className="text-xs font-semibold uppercase tracking-widest text-softgold">Free</p>
-            <h3 className="mt-3 font-display text-2xl font-semibold text-ink">Sexy Church Online</h3>
-            <p className="mt-3 text-muted">
-              Bible-based love lessons available on demand and weekly live. Experience real love without
-              transaction.
+            <p className="text-xs font-semibold uppercase tracking-widest text-softgold">
+              {content.offers.free.label}
             </p>
+            <h3 className="mt-3 font-display text-2xl font-semibold text-ink">{content.offers.free.title}</h3>
+            <p className="mt-3 text-muted">{content.offers.free.description}</p>
             <a
               href={site.youtube}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-8 inline-block rounded-full border border-ink/20 px-6 py-3 text-sm font-semibold text-ink transition hover:bg-ink/5"
             >
-              Attend Free Sexy Church
+              {content.offers.free.buttonText}
             </a>
           </div>
 
           <div className="rounded-3xl gradient-rose p-8 text-cream card-shadow">
-            <p className="text-xs font-semibold uppercase tracking-widest text-softgold">Most Popular</p>
-            <h3 className="mt-3 font-display text-2xl font-semibold">Keep Love Sexy — $50</h3>
-            <p className="mt-3 text-cream/85">
-              Online Zoom course (max 10 people). Learn how companies sell versions of love — and how to live
-              without pain or conflict. Based on Award Winning Mindset™.
+            <p className="text-xs font-semibold uppercase tracking-widest text-softgold">
+              {content.offers.popular.label}
             </p>
+            <h3 className="mt-3 font-display text-2xl font-semibold">{content.offers.popular.title}</h3>
+            <p className="mt-3 text-cream/85">{content.offers.popular.description}</p>
             <ul className="mt-5 space-y-1 text-sm text-cream/85">
-              <li>• 25 min teaching</li>
-              <li>• 20 min Q&amp;A</li>
-              <li>• 15 min quiz</li>
+              {content.offers.popular.bullets
+                .split("\n")
+                .map((b) => b.trim())
+                .filter(Boolean)
+                .map((b) => (
+                  <li key={b}>• {b}</li>
+                ))}
             </ul>
             <a
               href="#join"
               className="mt-8 inline-block rounded-full bg-cream px-6 py-3 text-sm font-semibold text-deeprose transition hover:opacity-90"
             >
-              Reserve Your Spot
+              {content.offers.popular.buttonText}
             </a>
           </div>
         </div>
 
         <div className="mt-14">
-          <h3 className="text-center text-xs font-semibold uppercase tracking-widest text-muted">Also Available</h3>
+          <h3 className="text-center text-xs font-semibold uppercase tracking-widest text-muted">
+            {content.offers.alsoAvailableHeading}
+          </h3>
           <div className="mt-6 grid gap-6 sm:grid-cols-3">
-            {alsoAvailable.map((a) => (
-              <div key={a.title} className="rounded-2xl border border-ink/10 bg-white p-6 text-center">
+            {content.offers.alsoAvailable.map((a, i) => (
+              <div key={i} className="rounded-2xl border border-ink/10 bg-white p-6 text-center">
                 <p className="font-display text-lg font-semibold text-ink">{a.title}</p>
-                <p className="mt-2 text-sm text-muted">{a.body}</p>
+                <p className="mt-2 text-sm text-muted">{a.description}</p>
               </div>
             ))}
           </div>
         </div>
+      </section>
+
+      {/* BOOK */}
+      <section id="book" className="mx-auto max-w-6xl px-6 py-24">
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="text-xs font-semibold uppercase tracking-widest text-deeprose">{content.booking.eyebrow}</p>
+          <h2 className="mt-4 font-display text-3xl font-bold text-ink sm:text-4xl">{content.booking.heading}</h2>
+          <p className="mt-6 text-muted">{content.booking.description}</p>
+        </div>
+
+        {content.booking.calendlyUrl ? (
+          <CalendlyEmbed url={content.booking.calendlyUrl} />
+        ) : (
+          <div className="mx-auto mt-10 max-w-md rounded-3xl border border-ink/10 bg-white p-8 text-center card-shadow">
+            <p className="text-sm text-muted">Online booking is coming soon. Reach out directly in the meantime.</p>
+            <a
+              href={`mailto:${site.email}`}
+              className="mt-6 inline-block rounded-full gradient-rose px-6 py-3 text-sm font-semibold text-cream transition hover:opacity-90"
+            >
+              {content.booking.buttonText}
+            </a>
+          </div>
+        )}
       </section>
 
       {/* JOIN */}
