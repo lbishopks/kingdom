@@ -444,19 +444,8 @@ export default async function HomePage() {
           </div>
         </div>
 
-        <div className="mt-14">
-          <h3 className="text-center text-xs font-semibold uppercase tracking-widest text-muted">
-            {content.offers.alsoAvailableHeading}
-          </h3>
-          <div className="mt-6 grid gap-6 sm:grid-cols-3">
-            {content.offers.alsoAvailable.map((a, i) => (
-              <div key={i} className="rounded-2xl border border-ink/10 bg-white p-6 text-center">
-                <p className="font-display text-lg font-semibold text-ink">{a.title}</p>
-                <p className="mt-2 text-sm text-muted">{a.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* "Also Available" row removed from public display per request — content still
+            lives in content.offers.alsoAvailable / admin dashboard if it's needed again. */}
       </section>
 
       {/* BOOK */}
