@@ -4,6 +4,7 @@ import { site, videoSlots } from "@/lib/site";
 import { getContent } from "@/lib/content";
 import NewsletterForm from "@/components/NewsletterForm";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
+import CheckoutButton from "@/components/CheckoutButton";
 
 export const dynamic = "force-dynamic";
 
@@ -425,12 +426,21 @@ export default async function HomePage() {
                   <li key={b}>• {b}</li>
                 ))}
             </ul>
-            <a
-              href="#join"
-              className="mt-8 inline-block rounded-full bg-cream px-6 py-3 text-sm font-semibold text-deeprose transition hover:opacity-90"
-            >
-              {content.offers.popular.buttonText}
-            </a>
+            <div className="mt-8">
+              {content.offers.popular.priceCents > 0 ? (
+                <CheckoutButton
+                  label={content.offers.popular.buttonText}
+                  className="inline-block rounded-full bg-cream px-6 py-3 text-sm font-semibold text-deeprose transition hover:opacity-90"
+                />
+              ) : (
+                <a
+                  href="#join"
+                  className="inline-block rounded-full bg-cream px-6 py-3 text-sm font-semibold text-deeprose transition hover:opacity-90"
+                >
+                  {content.offers.popular.buttonText}
+                </a>
+              )}
+            </div>
           </div>
         </div>
 
