@@ -6,6 +6,7 @@ export const site = {
     "Uknighted Kingdom combines biblical, loving, and spiritual principles with entertainment — teaching real Sexy Love through comedy, media, and courses that build families instead of breaking them.",
   url: "https://uknightedkingdom.com",
   email: "micheletexas@gmail.com",
+  contactEmail: "corporatesalestraining@outlook.com",
   youtube: "https://www.youtube.com/@uknightedkingdom",
   tiktok: "https://www.tiktok.com/@uknightedkingdom",
   instagram: "https://www.instagram.com/uknightedkingdom",
@@ -36,6 +37,7 @@ export const nav = [
   { href: "#story", label: "Michele's Story" },
   { href: "#sexy-love", label: "Sexy Love" },
   { href: "#offers", label: "Offers" },
+  { href: "#contact", label: "Contact" },
 ];
 
 // Default video slots shown on the Watch section. These can be edited (title,
