@@ -8,13 +8,13 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-royal/10 bg-paper/90 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-ink/10 bg-cream/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <Link href="/" className="flex items-center gap-2 font-display text-xl font-semibold tracking-tight text-royal">
-          <span aria-hidden className="grid h-9 w-9 place-items-center rounded-full gradient-royal text-gold-light">
+        <Link href="#" className="flex items-center gap-2 font-display text-xl font-semibold tracking-tight text-ink">
+          <span aria-hidden className="grid h-9 w-9 place-items-center rounded-full gradient-rose text-cream">
             ♛
           </span>
-          {site.shortName}
+          {site.name}
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-8 md:flex">
@@ -22,16 +22,16 @@ export default function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm font-medium text-ink/80 transition hover:text-royal"
+              className="text-sm font-medium text-ink/80 transition hover:text-deeprose"
             >
               {item.label}
             </Link>
           ))}
           <Link
-            href="/contact"
-            className="rounded-full bg-royal px-5 py-2 text-sm font-semibold text-paper transition hover:bg-royal-light"
+            href="#join"
+            className="rounded-full gradient-rose px-5 py-2 text-sm font-semibold text-cream transition hover:opacity-90"
           >
-            Get UKnighted
+            Get Uknighted
           </Link>
         </nav>
 
@@ -49,7 +49,7 @@ export default function Header() {
       </div>
 
       {open && (
-        <nav aria-label="Mobile" className="border-t border-royal/10 bg-paper px-6 pb-6 md:hidden">
+        <nav aria-label="Mobile" className="border-t border-ink/10 bg-cream px-6 pb-6 md:hidden">
           <ul className="flex flex-col gap-4 pt-4">
             {nav.map((item) => (
               <li key={item.href}>
@@ -60,11 +60,11 @@ export default function Header() {
             ))}
             <li>
               <Link
-                href="/contact"
-                className="inline-block rounded-full bg-royal px-5 py-2 text-sm font-semibold text-paper"
+                href="#join"
+                className="inline-block rounded-full gradient-rose px-5 py-2 text-sm font-semibold text-cream"
                 onClick={() => setOpen(false)}
               >
-                Get UKnighted
+                Get Uknighted
               </Link>
             </li>
           </ul>
