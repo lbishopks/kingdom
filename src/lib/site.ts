@@ -10,6 +10,12 @@ export const site = {
   tiktok: "https://www.tiktok.com/@uknightedkingdom",
   instagram: "https://www.instagram.com/uknightedkingdom",
   formspreeEndpoint: "https://formspree.io/f/xaewaarn",
+  song: {
+    title: "The Light",
+    artist: "King Rapture",
+    bandcampUrl: "https://therealmc.bandcamp.com/track/the-light",
+    embedUrl: "https://bandcamp.com/EmbeddedPlayer/v=2/track=3853726700/size=large/tracklist=false/artwork=small/",
+  },
   locale: "en_US",
   keywords: [
     "Uknighted Kingdom",
