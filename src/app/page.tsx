@@ -483,6 +483,23 @@ export default async function HomePage() {
           appears on the post-payment /checkout/success page. Content model (content.booking)
           and CalendlyEmbed component are left intact for that purpose. */}
 
+      {/* CONTACT */}
+      <section id="contact" className="bg-white py-24">
+        <div className="mx-auto max-w-3xl px-6 text-center">
+          <p className="text-xs font-semibold uppercase tracking-widest text-deeprose">Get In Touch</p>
+          <h2 className="mt-4 font-display text-3xl font-bold text-ink sm:text-4xl">Contact Us</h2>
+          <p className="mx-auto mt-6 max-w-xl text-muted">
+            Questions about classes, bookings, or partnerships? Reach out and we&rsquo;ll get back to you.
+          </p>
+          <a
+            href={`mailto:${site.contactEmail}`}
+            className="mt-8 inline-block rounded-full gradient-rose px-7 py-3 text-sm font-semibold text-cream transition hover:opacity-90"
+          >
+            {site.contactEmail}
+          </a>
+        </div>
+      </section>
+
       {/* JOIN */}
       <section id="join" className="bg-ink py-24 text-cream">
         <div className="mx-auto max-w-xl px-6 text-center">
