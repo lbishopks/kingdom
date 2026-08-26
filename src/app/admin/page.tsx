@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { getContent } from "@/lib/content";
 import Dashboard from "./Dashboard";
-import StripeAdmin from "@/components/StripeAdmin";
 import AdminStripeBridge from "./AdminStripeBridge";
 
 export const metadata: Metadata = {
