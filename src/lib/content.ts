@@ -23,14 +23,15 @@ export type OffersContent = {
     title: string;
     description: string;
     buttonText: string;
+    buttonUrl: string;
   };
   popular: {
     label: string;
     title: string;
     description: string;
-    bullets: string; // newline-separated lines
+    bullets: string;
     buttonText: string;
-    priceCents: number; // charged via Stripe Checkout when "Reserve Your Spot" is clicked
+    priceCents: number;
   };
   alsoAvailableHeading: string;
   alsoAvailable: OfferItem[];
@@ -40,13 +41,13 @@ export type BookingContent = {
   eyebrow: string;
   heading: string;
   description: string;
-  calendlyUrl: string; // full Calendly scheduling link, e.g. https://calendly.com/your-handle
+  calendlyUrl: string;
   buttonText: string;
 };
 
 export type SiteContent = {
-  photo: string; // Michele's headshot / hero photo
-  videos: Record<string, VideoEntry>; // slot slug -> title + video URL + duration
+  photo: string;
+  videos: Record<string, VideoEntry>;
   offers: OffersContent;
   booking: BookingContent;
 };
@@ -59,7 +60,8 @@ export const defaultOffers: OffersContent = {
     label: "Free",
     title: "Sexy Church Online",
     description: "Bible-based love lessons available on demand and weekly live. Experience real love without transaction.",
-    buttonText: "Attend Free Sexy Church",
+    buttonText: "Attend Sexy Church Online",
+    buttonUrl: "https://us06web.zoom.us/j/81223219172?pwd=0v7l18710AgtbWQgOAJiuaMjdbeLls.1",
   },
   popular: {
     label: "Most Popular",
@@ -72,19 +74,19 @@ export const defaultOffers: OffersContent = {
   },
   alsoAvailableHeading: "Also Available",
   alsoAvailable: [
-    { title: "$300 — Choose Sexy Love", description: "1-hour message + improv comedy + quiz." },
     { title: "Grace Under Glitter Tour", description: "Comedy shows + sponsorship packages." },
     { title: "Merchandise", description: "Sexy Love t-shirts and more." },
+    { title: "The Light — King Rapture", description: "Original music carrying the Sexy Love message." },
   ],
 };
 
 export const defaultBooking: BookingContent = {
-  eyebrow: "Book a Session",
-  heading: "Schedule Time With Michele",
+  eyebrow: "Free",
+  heading: "Introductory Meeting with Michele",
   description:
-    "Pick a time that works for you to talk through coaching, speaking, or event bookings. Choose a slot below and it's confirmed instantly.",
-  calendlyUrl: "",
-  buttonText: "Book Your Appointment",
+    "Book a one-on-one intro call with Michele to learn more about Sexy Love, classes, and how Uknighted Kingdom can help your family.",
+  calendlyUrl: "https://calendly.com/corporatesalestraining/new-meeting-1",
+  buttonText: "Schedule Meeting",
 };
 
 export const defaultContent: SiteContent = {
@@ -110,7 +112,6 @@ function normalizeVideos(raw: unknown): Record<string, VideoEntry> {
   for (const [slug, value] of Object.entries(raw as Record<string, unknown>)) {
     const fallback = result[slug] ?? { title: slug, url: "", duration: "" };
     if (typeof value === "string") {
-      // Legacy shape: plain URL string.
       result[slug] = { title: fallback.title, url: value, duration: fallback.duration };
     } else if (value && typeof value === "object") {
       const v = value as Partial<VideoEntry>;
@@ -153,6 +154,7 @@ function normalizeOffers(raw: unknown): OffersContent {
       title: typeof free.title === "string" ? free.title : defaultOffers.free.title,
       description: typeof free.description === "string" ? free.description : defaultOffers.free.description,
       buttonText: typeof free.buttonText === "string" ? free.buttonText : defaultOffers.free.buttonText,
+      buttonUrl: typeof free.buttonUrl === "string" && free.buttonUrl.trim() ? free.buttonUrl : defaultOffers.free.buttonUrl,
     },
     popular: {
       label: typeof popular.label === "string" ? popular.label : defaultOffers.popular.label,
@@ -178,7 +180,10 @@ function normalizeBooking(raw: unknown): BookingContent {
     eyebrow: typeof b.eyebrow === "string" ? b.eyebrow : defaultBooking.eyebrow,
     heading: typeof b.heading === "string" ? b.heading : defaultBooking.heading,
     description: typeof b.description === "string" ? b.description : defaultBooking.description,
-    calendlyUrl: typeof b.calendlyUrl === "string" ? b.calendlyUrl : defaultBooking.calendlyUrl,
+    calendlyUrl:
+      typeof b.calendlyUrl === "string" && b.calendlyUrl.trim()
+        ? b.calendlyUrl
+        : defaultBooking.calendlyUrl,
     buttonText: typeof b.buttonText === "string" ? b.buttonText : defaultBooking.buttonText,
   };
 }
