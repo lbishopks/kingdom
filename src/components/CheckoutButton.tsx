@@ -5,13 +5,19 @@ import { useState } from "react";
 export default function CheckoutButton({
   label,
   className,
+  paymentLink,
 }: {
   label: string;
   className: string;
+  paymentLink?: string;
 }) {
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
 
   async function handleClick() {
+    if (paymentLink) {
+      window.location.href = paymentLink;
+      return;
+    }
     setStatus("loading");
     try {
       const res = await fetch("/api/checkout", { method: "POST" });
@@ -29,7 +35,7 @@ export default function CheckoutButton({
         {status === "loading" ? "Redirecting to checkout..." : label}
       </button>
       {status === "error" && (
-        <p className="mt-2 text-xs text-red-200">Something went wrong — please try again in a moment.</p>
+        <p className="mt-2 text-xs text-red-200">Checkout is not configured yet. Add a Stripe Payment Link in Admin.</p>
       )}
     </div>
   );
