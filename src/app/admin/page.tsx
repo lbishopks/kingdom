@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { getContent } from "@/lib/content";
 import Dashboard from "./Dashboard";
+import StripeAdmin from "@/components/StripeAdmin";
+import AdminStripeBridge from "./AdminStripeBridge";
 
 export const metadata: Metadata = {
   title: "Admin",
@@ -9,5 +11,10 @@ export const metadata: Metadata = {
 
 export default async function AdminPage() {
   const content = await getContent();
-  return <Dashboard initialContent={content} />;
+  return (
+    <>
+      <AdminStripeBridge initialContent={content} />
+      <Dashboard initialContent={content} />
+    </>
+  );
 }
