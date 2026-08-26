@@ -14,6 +14,12 @@ export type OfferItem = {
   description: string;
 };
 
+export type StripeSettings = {
+  publishableKey: string;
+  paymentLink: string;
+  priceClass: string;
+};
+
 export type OffersContent = {
   eyebrow: string;
   heading: string;
@@ -50,6 +56,7 @@ export type SiteContent = {
   videos: Record<string, VideoEntry>;
   offers: OffersContent;
   booking: BookingContent;
+  stripe: StripeSettings;
 };
 
 export const defaultOffers: OffersContent = {
@@ -89,6 +96,12 @@ export const defaultBooking: BookingContent = {
   buttonText: "Schedule Meeting",
 };
 
+export const defaultStripe: StripeSettings = {
+  publishableKey: "",
+  paymentLink: "",
+  priceClass: "",
+};
+
 export const defaultContent: SiteContent = {
   photo: "",
   videos: Object.fromEntries(
@@ -99,6 +112,7 @@ export const defaultContent: SiteContent = {
   ),
   offers: defaultOffers,
   booking: defaultBooking,
+  stripe: defaultStripe,
 };
 
 function hasBlobToken(): boolean {
@@ -188,6 +202,16 @@ function normalizeBooking(raw: unknown): BookingContent {
   };
 }
 
+function normalizeStripe(raw: unknown): StripeSettings {
+  if (!raw || typeof raw !== "object") return defaultStripe;
+  const s = raw as Partial<StripeSettings>;
+  return {
+    publishableKey: typeof s.publishableKey === "string" ? s.publishableKey : "",
+    paymentLink: typeof s.paymentLink === "string" ? s.paymentLink : "",
+    priceClass: typeof s.priceClass === "string" ? s.priceClass : "",
+  };
+}
+
 export async function getContent(): Promise<SiteContent> {
   if (!hasBlobToken()) return defaultContent;
 
@@ -201,6 +225,7 @@ export async function getContent(): Promise<SiteContent> {
       videos: normalizeVideos(data.videos),
       offers: normalizeOffers(data.offers),
       booking: normalizeBooking(data.booking),
+      stripe: normalizeStripe(data.stripe),
     };
   } catch {
     return defaultContent;
