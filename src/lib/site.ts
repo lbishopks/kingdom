@@ -36,6 +36,7 @@ export const nav = [
   { href: "#watch", label: "Watch" },
   { href: "#story", label: "Michele's Story" },
   { href: "#sexy-love", label: "Sexy Love" },
+  { href: "#testimonials", label: "Testimonials" },
   { href: "#offers", label: "Offers" },
   { href: "#contact", label: "Contact" },
 ];
