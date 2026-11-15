@@ -1,5 +1,6 @@
 import { put, head } from "@vercel/blob";
 import { videoSlots } from "@/lib/site";
+import { getBlobToken } from "@/lib/blob-token";
 
 const CONTENT_KEY = "site-content.json";
 
@@ -116,7 +117,7 @@ export const defaultContent: SiteContent = {
 };
 
 function hasBlobToken(): boolean {
-  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+  return Boolean(getBlobToken());
 }
 
 function normalizeVideos(raw: unknown): Record<string, VideoEntry> {
@@ -216,7 +217,7 @@ export async function getContent(): Promise<SiteContent> {
   if (!hasBlobToken()) return defaultContent;
 
   try {
-    const blob = await head(CONTENT_KEY);
+    const blob = await head(CONTENT_KEY, { token: getBlobToken() });
     const res = await fetch(blob.url, { cache: "no-store" });
     if (!res.ok) return defaultContent;
     const data = (await res.json()) as Partial<SiteContent>;
@@ -234,9 +235,10 @@ export async function getContent(): Promise<SiteContent> {
 
 export async function saveContent(content: SiteContent): Promise<void> {
   if (!hasBlobToken()) {
-    throw new Error("BLOB_READ_WRITE_TOKEN is not set — connect Vercel Blob storage first.");
+    throw new Error("Blob storage token is not set — connect Vercel Blob storage first.");
   }
   await put(CONTENT_KEY, JSON.stringify(content, null, 2), {
+    token: getBlobToken(),
     access: "public",
     contentType: "application/json",
     allowOverwrite: true,

@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 import { put } from "@vercel/blob";
+import { getBlobToken } from "@/lib/blob-token";
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/svg+xml"];
 const MAX_SIZE_BYTES = 8 * 1024 * 1024; // 8MB
 
 export async function POST(request: Request) {
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+  const token = getBlobToken();
+  if (!token) {
     return NextResponse.json(
       { error: "Image storage is not configured. Connect Vercel Blob storage first." },
       { status: 500 },
@@ -30,10 +32,15 @@ export async function POST(request: Request) {
   const ext = file.name.split(".").pop() || "jpg";
   const key = `uploads/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
 
-  const blob = await put(key, file, {
-    access: "public",
-    contentType: file.type,
-  });
-
-  return NextResponse.json({ url: blob.url });
+  try {
+    const blob = await put(key, file, {
+      token,
+      access: "public",
+      contentType: file.type,
+    });
+    return NextResponse.json({ url: blob.url });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Upload failed.";
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
 }
